@@ -30,3 +30,13 @@ export const supportsImageFormat = (type) => {
   if (!canvas.getContext) return false;
   return canvas.toDataURL(type).startsWith(`data:${type}`);
 };
+
+export const getClientId = () => {
+  const key = 'compressify_client_id';
+  let clientId = localStorage.getItem(key);
+  if (!clientId) {
+    clientId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+    localStorage.setItem(key, clientId);
+  }
+  return clientId;
+};

@@ -123,6 +123,17 @@ const Home = () => {
     }
   };
 
+  const handleHistoryDownload = async (item) => {
+    const baseUrl =
+      import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+    const downloadUrl = `${baseUrl.replace(/\/$/, '')}/download/${item.filename}`;
+    try {
+      await downloadFile(downloadUrl, item.filename);
+    } catch (err) {
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   const handleZipDownload = async () => {
     if (!zipUrl) return;
     try {
@@ -238,6 +249,7 @@ const Home = () => {
                   <th className="py-2">Original</th>
                   <th className="py-2">Compressed</th>
                   <th className="py-2">Saved</th>
+                  <th className="py-2">Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -247,6 +259,15 @@ const Home = () => {
                     <td className="py-2">{formatBytes(item.original_size)}</td>
                     <td className="py-2">{formatBytes(item.compressed_size)}</td>
                     <td className="py-2 text-emerald-600">{item.compression_ratio}%</td>
+                    <td className="py-2">
+                      <button
+                        type="button"
+                        onClick={() => handleHistoryDownload(item)}
+                        className="text-sm text-ocean underline"
+                      >
+                        Download
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

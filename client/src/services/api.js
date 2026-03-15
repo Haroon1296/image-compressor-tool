@@ -1,7 +1,13 @@
 import axios from 'axios';
+import { getClientId } from '../utils/helpers';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+});
+
+api.interceptors.request.use((config) => {
+  config.headers['x-client-id'] = getClientId();
+  return config;
 });
 
 // Sends a single file as multipart with compression options.

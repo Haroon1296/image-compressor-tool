@@ -19,6 +19,10 @@ const CompressionLog = sequelize.define(
     compression_ratio: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    client_id: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   },
   {

@@ -31,9 +31,13 @@ const compressImages = async (req, res, next) => {
   try {
     const { level = 'medium', format = 'auto' } = req.body;
     const files = req.files || [];
+    const clientId = req.get('x-client-id');
 
     if (!files.length) {
       return res.status(400).json({ error: 'No files received.' });
+    }
+    if (!clientId) {
+      return res.status(400).json({ error: 'Missing client id.' });
     }
 
     if (!ALLOWED_LEVELS.has(level)) {
@@ -88,7 +92,8 @@ const compressImages = async (req, res, next) => {
         filename: outputName,
         original_size: originalSize,
         compressed_size: compressedSize,
-        compression_ratio: ratio
+        compression_ratio: ratio,
+        client_id: clientId
       });
 
       results.push({
@@ -110,7 +115,12 @@ const compressImages = async (req, res, next) => {
 
 const getHistory = async (req, res, next) => {
   try {
+    const clientId = req.get('x-client-id');
+    if (!clientId) {
+      return res.json({ logs: [] });
+    }
     const logs = await CompressionLog.findAll({
+      where: { client_id: clientId },
       order: [['created_at', 'DESC']],
       limit: 100
     });
