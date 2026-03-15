@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply min-h-screen;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 0),
+    linear-gradient(135deg, rgba(249, 178, 51, 0.2), rgba(11, 92, 95, 0.08));
+  background-size: 16px 16px, cover;
+}
+
+.glass {
+  @apply bg-white/90 backdrop-blur-lg border border-white/40;
+}
+
+.dark body {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 0),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.95));
+}
+
+.dark .glass {
+  @apply bg-slate-900/70 border-slate-700/60;
+}
